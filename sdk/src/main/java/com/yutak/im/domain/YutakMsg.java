@@ -4,11 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.xinbida.wukongim.YutakIM;
+import com.yutak.im.YutakIM;
 import com.yutak.im.manager.ChannelManager;
 import com.yutak.im.manager.ChannelMembersManager;
 import com.xinbida.wukongim.msgmodel.YutakMessageContent;
 import com.yutak.im.cs.Yutak;
 import com.yutak.im.kit.DateKit;
+import com.yutak.im.msgmodel.YutakMessageContent;
 
 import org.json.JSONObject;
 
@@ -95,7 +97,7 @@ public class YutakMsg implements Parcelable {
         this.expireTime = 0;
         this.expireTimestamp = 0;
         status = Yutak.SendMsgResult.send_loading;
-        clientMsgNO = YutakIM.getInstance().getMsgManager().createClientMsgNO();
+        clientMsgNO = YutakIM.get().getMsgManager().createClientMsgNO();
         header = new YutakMsgHeader();
         remoteExtra = new YutakMsgExtra();
     }

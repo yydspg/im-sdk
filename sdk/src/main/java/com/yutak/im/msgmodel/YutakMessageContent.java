@@ -3,7 +3,7 @@ package com.yutak.im.msgmodel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.xinbida.wukongim.entity.YutakMentionInfo;
+import com.yutak.im.domain.YutakMentionInfo;
 
 import org.json.JSONObject;
 
