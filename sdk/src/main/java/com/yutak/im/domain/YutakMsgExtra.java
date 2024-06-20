@@ -3,7 +3,7 @@ package com.yutak.im.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.xinbida.wukongim.msgmodel.YutakMessageContent;
+import com.yutak.im.msgmodel.YutakMessageContent;
 
 public class YutakMsgExtra implements Parcelable {
     public String messageID;

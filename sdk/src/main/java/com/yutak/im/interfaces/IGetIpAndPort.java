@@ -1,9 +1,6 @@
 package com.yutak.im.interfaces;
 
-/**
- * 2019-11-11 10:04
- * 获取ip和端口的回掉
- */
+// get ip and port
 public interface IGetIpAndPort {
     void getIP(IGetSocketIpAndPortListener andPortListener);
 }

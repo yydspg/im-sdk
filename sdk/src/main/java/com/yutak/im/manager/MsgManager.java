@@ -11,4 +11,5 @@ public class MsgManager {
     public static MsgManager getInstance() {
         return MsgManagerBinder.msgManager;
     }
+
 }

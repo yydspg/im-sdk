@@ -1,6 +1,6 @@
 package com.yutak.im.interfaces;
 
-import com.xinbida.wukongim.domain.YutakChannelMember;
+import com.yutak.im.domain.YutakChannelMember;
 
 import java.util.List;
 

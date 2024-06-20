@@ -3,11 +3,12 @@ package com.yutak.im.protocol;
 
 import android.text.TextUtils;
 
-import com.xinbida.wukongim.YutakIMApplication;
-import com.yutak.im.domain.YutakMsgSetting;
+
+import com.yutak.im.YutakApplication;
 import com.yutak.im.cs.Yutak;
-import com.xinbida.wukongim.utils.CryptoUtils;
-import com.xinbida.wukongim.utils.YutakTypeUtils;
+import com.yutak.im.domain.YutakMsgSetting;
+import com.yutak.im.kit.CryptoKit;
+import com.yutak.im.kit.TypeKit;
 
 /**
  * 2019-11-11 10:30
@@ -55,7 +56,7 @@ public class YutakSendMsg extends YutakBaseMsg {
 
     public String getSendContent() {
         if (TextUtils.isEmpty(cryptoPayload)) {
-            cryptoPayload = CryptoUtils.getInstance().base64Encode(CryptoUtils.getInstance().aesEncrypt(payload));
+            cryptoPayload = CryptoKit.getInstance().base64Encode(CryptoKit.getInstance().aesEncrypt(payload));
         }
         return cryptoPayload;
     }
@@ -64,8 +65,8 @@ public class YutakSendMsg extends YutakBaseMsg {
         if (TextUtils.isEmpty(msgKey)) {
             String sendContent = getSendContent();
             String key = clientSeq + clientMsgNo + channelId + channelType + sendContent;
-            byte[] msgKeyByte = CryptoUtils.getInstance().aesEncrypt(key);
-            msgKey = CryptoUtils.getInstance().digestMD5(CryptoUtils.getInstance().base64Encode(msgKeyByte));
+            byte[] msgKeyByte = CryptoKit.getInstance().aesEncrypt(key);
+            msgKey = CryptoKit.getInstance().digestMD5(CryptoKit.getInstance().base64Encode(msgKeyByte));
         }
         return msgKey;
     }
@@ -80,7 +81,8 @@ public class YutakSendMsg extends YutakBaseMsg {
     }
 
     private int getExpireLength() {
-        if (YutakIMApplication.getInstance().protocolVersion >= 3) {
+        // todo 这里已经变更协议了
+        if (YutakApplication.get().protocolVersion >= 3) {
             return expireLength;
         }
         return 0;
@@ -91,7 +93,7 @@ public class YutakSendMsg extends YutakBaseMsg {
         int expireLen = getExpireLength();
         String msgKeyContent = getMsgKey();
         String sendContent = getSendContent();
-        byte[] remainingBytes = YutakTypeUtils.getInstance().getRemainingLengthByte(getRemainingLength());
+        byte[] remainingBytes = TypeKit.getInstance().getRemainingLengthByte(getRemainingLength());
         return 1 + remainingBytes.length
                 + settingLength
                 + clientSeqLength

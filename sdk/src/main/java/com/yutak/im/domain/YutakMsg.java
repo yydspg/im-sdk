@@ -3,13 +3,11 @@ package com.yutak.im.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.xinbida.wukongim.YutakIM;
 import com.yutak.im.YutakIM;
-import com.yutak.im.manager.ChannelManager;
-import com.yutak.im.manager.ChannelMembersManager;
-import com.xinbida.wukongim.msgmodel.YutakMessageContent;
 import com.yutak.im.cs.Yutak;
 import com.yutak.im.kit.DateKit;
+import com.yutak.im.manager.ChannelManager;
+import com.yutak.im.manager.ChannelMembersManager;
 import com.yutak.im.msgmodel.YutakMessageContent;
 
 import org.json.JSONObject;

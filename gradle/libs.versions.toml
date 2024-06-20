@@ -1,19 +1,27 @@
 [versions]
 agp = "8.4.0"
+curve25519Android = "0.5.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
 material = "1.12.0"
+multidex = "1.0.3"
+signalProtocolAndroid = "2.8.1"
 sqlite = "2.4.0"
+xsocket = "2.8.15"
 
 [libraries]
+curve25519-android = { module = "org.whispersystems:curve25519-android", version.ref = "curve25519Android" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+multidex = { module = "com.android.support:multidex", version.ref = "multidex" }
+signal-protocol-android = { module = "org.whispersystems:signal-protocol-android", version.ref = "signalProtocolAndroid" }
 sqlite = { module = "androidx.sqlite:sqlite", version.ref = "sqlite" }
+xsocket = { module = "com.example.package:xsocket", version.ref = "xsocket" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,7 +1,7 @@
 package com.yutak.im.interfaces;
 
 
-import com.xinbida.wukongim.msgmodel.YutakMessageContent;
+import com.yutak.im.msgmodel.YutakMessageContent;
 
 /**
  * 2019-11-10 16:12

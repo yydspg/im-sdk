@@ -1,12 +1,9 @@
 package com.yutak.im.interfaces;
 
 
-import com.xinbida.wukongim.domain.YutakChannel;
+import com.yutak.im.domain.YutakChannel;
 
-/**
- * 2020-02-01 14:38
- * 刷新频道
- */
+// refresh channel
 public interface IRefreshChannel {
     void onRefreshChannel(YutakChannel channel, boolean isEnd);
 }

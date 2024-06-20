@@ -64,7 +64,7 @@ public class YutakApplication {
         edit.apply();
     }
 
-    public String getTempRSAPublicKey() {
+    public String getRSAPublicKey() {
         if (mContext == null) {
             LogKit.get().e("no context");
             return "";

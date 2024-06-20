@@ -1,7 +1,7 @@
 package com.yutak.im.interfaces;
 
 
-import com.xinbida.wukongim.domain.YutakChannelMember;
+import com.yutak.im.domain.YutakChannelMember;
 
 /**
  * 2020-02-01 15:19
