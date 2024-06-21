@@ -17,7 +17,7 @@ import java.util.Objects;
 public class LogKit {
     private final String TAG = "YutakLogger" + YutakIM.get().getVersion();
     //Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
-    private final String FILE_NAME = "wkLogger_" + YutakIM.get().getVersion() + ".log";
+    private final String FILE_NAME = "YutakLogger_" + YutakIM.get().getVersion() + ".log";
 
     private final static LogKit logKit = new LogKit();
     private LogKit() {}

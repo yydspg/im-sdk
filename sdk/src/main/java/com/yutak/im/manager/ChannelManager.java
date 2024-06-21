@@ -6,6 +6,7 @@ import com.yutak.im.cs.DB;
 import com.yutak.im.db.ChannelDBManager;
 import com.yutak.im.domain.YutakChannel;
 import com.yutak.im.domain.YutakChannelSearchResult;
+import com.yutak.im.interfaces.IChannelInfoListener;
 import com.yutak.im.interfaces.IGetChannelInfo;
 import com.yutak.im.interfaces.IRefreshChannel;
 import com.yutak.im.interfaces.IRefreshChannelAvatar;
@@ -61,12 +62,17 @@ public class ChannelManager extends BaseManager{
         }
         return YutakChannel;
     }
+    public YutakChannel getChannel(String channelId, byte channelType, IChannelInfoListener iChannelInfoListener) {
+        if (this.iGetChannelInfo != null && !TextUtils.isEmpty(channelId) && iChannelInfoListener != null) {
+            return iGetChannelInfo.onGetChannelInfo(channelId, channelType, iChannelInfoListener);
+        } else return null;
+    }
     // refresh channel info from remote
     public void fetchChannelInfo(String channelID, byte channelType) {
         if (TextUtils.isEmpty(channelID)) return;
-        YutakChannel channel = getChannel(channelID, channelType, YutakChannel -> {
-            if (YutakChannel != null)
-                saveOrUpdateChannel(YutakChannel);
+        YutakChannel channel = getChannel(channelID, channelType, c -> {
+            if (c != null)
+                saveOrUpdateChannel(c);
         });
         if (channel != null) {
             saveOrUpdateChannel(channel);

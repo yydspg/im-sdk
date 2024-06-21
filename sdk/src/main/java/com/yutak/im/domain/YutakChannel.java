@@ -7,10 +7,7 @@ import com.yutak.im.kit.DateKit;
 
 import java.util.HashMap;
 
-/**
- * 2019-11-09 18:05
- * 频道实体
- */
+// channel info ,base model
 public class YutakChannel implements Parcelable {
     //自增ID
     public long id;

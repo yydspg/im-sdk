@@ -1,7 +1,7 @@
 package com.yutak.im.interfaces;
 
 
-
+import com.yutak.im.domain.YutakChannelMember;
 
 /**
  * 2019-12-01 15:52

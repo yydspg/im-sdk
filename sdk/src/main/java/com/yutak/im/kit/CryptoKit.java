@@ -46,12 +46,12 @@ public class CryptoKit {
     private CryptoKit() {
     }
 
-    private static class CryptoUtilsBinder {
+    private static class CryptoKitBinder {
         private final static CryptoKit util = new CryptoKit();
     }
 
     public static CryptoKit getInstance() {
-        return CryptoUtilsBinder.util;
+        return CryptoKitBinder.util;
     }
 
     public void initKey() {

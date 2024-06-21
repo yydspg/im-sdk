@@ -10,6 +10,7 @@ multidex = "1.0.3"
 signalProtocolAndroid = "2.8.1"
 sqlite = "2.4.0"
 xsocket = "2.8.15"
+xsocketVersion = "2.8.15"
 
 [libraries]
 curve25519-android = { module = "org.whispersystems:curve25519-android", version.ref = "curve25519Android" }
@@ -22,6 +23,7 @@ multidex = { module = "com.android.support:multidex", version.ref = "multidex" }
 signal-protocol-android = { module = "org.whispersystems:signal-protocol-android", version.ref = "signalProtocolAndroid" }
 sqlite = { module = "androidx.sqlite:sqlite", version.ref = "sqlite" }
 xsocket = { module = "com.example.package:xsocket", version.ref = "xsocket" }
+xsocket-xsocket = { module = "org.xsocket:xSocket", version.ref = "xsocketVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

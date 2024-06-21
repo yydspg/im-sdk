@@ -35,7 +35,8 @@ dependencies {
     implementation libs.sqlite
     implementation libs.curve25519.android
     implementation libs.signal.protocol.android
-    implementation libs.xsocket
     implementation libs.multidex
+    // https://mvnrepository.com/artifact/org.xsocket/xSocket
+    implementation libs.xsocket.xsocket
 
 }

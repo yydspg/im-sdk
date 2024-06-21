@@ -8,5 +8,5 @@ public class YutakSyncMsg {
     public int no_persist;
     public int red_dot;
     public int sync_once;
-    public YutakMsg YutakMsg;
+    public YutakMsg yutakMsg;
 }

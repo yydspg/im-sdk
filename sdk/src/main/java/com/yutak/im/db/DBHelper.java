@@ -25,6 +25,39 @@ public class DBHelper {
     private final static int version = 1;
     private static String myDBName;
     private static String uid;
+    private DBHelper(Context ctx, String uid) {
+        DBHelper.uid = uid;
+        myDBName = "Yutak_" + uid + ".db";
+
+        try {
+            mDbHelper = new DatabaseHelper(ctx);
+            //TODO : here  api has been changed
+//            mDb = mDbHelper.getWritableDatabase(uid);
+//            YutakDBUpgrade.getInstance().onUpgrade(mDb);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 创建数据库实例
+     *
+     * @param context 上下文
+     * @param _uid    用户ID
+     * @return db
+     */
+    public synchronized static DBHelper getInstance(Context context, String _uid) {
+        if (TextUtils.isEmpty(uid) || !uid.equals(_uid) || openHelper == null) {
+            synchronized (DBHelper.class) {
+                if (openHelper != null) {
+                    openHelper.close();
+                    openHelper = null;
+                }
+                openHelper = new DBHelper(context, _uid);
+            }
+        }
+        return openHelper;
+    }
     public static class DatabaseHelper extends SQLiteOpenHelper {
 
         DatabaseHelper(Context context) {
@@ -78,7 +111,7 @@ public class DBHelper {
         if (mDb == null) {
             return null;
         }
-        return mDb.rawQuery(sql, selectionArgs);
+        return mDb.rawQuery(sql, (String[]) selectionArgs);
     }
 
     public Cursor select(String table, String selection,

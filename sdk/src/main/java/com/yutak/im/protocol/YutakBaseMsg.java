@@ -1,13 +1,8 @@
 package com.yutak.im.protocol;
 
-import com.yutak.im.cs.Yutak;
 
-/**
- * 2019-11-11 10:14
- * talk service 基础消息对象
- *
- * @see Yutak.MsgType 对应packetType类型
- */
+
+// same as  proto Packet
 public class YutakBaseMsg {
     //报文类型
     public short packetType;

@@ -2,6 +2,10 @@ package com.yutak.im;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.yutak.im.db.DBHelper;
@@ -28,7 +32,7 @@ public class YutakApplication {
     private DBHelper dbHelper;
     public boolean isCanConnect = true;
     private String fileDir = "yutak";
-    private YutakSyncMsgMode yutakSyncMsgMode;
+    private YutakSyncMsgMode syncMsgMode;
 
     public static YutakApplication get() {
         return yutakApplication;
@@ -44,14 +48,18 @@ public class YutakApplication {
     void initContext(Context context) {
         this.mContext = new WeakReference<>(context);
     }
+    public YutakSyncMsgMode getSyncMsgMode() {
+        if (syncMsgMode == null) syncMsgMode = YutakSyncMsgMode.READ;
+        return syncMsgMode;
+    }
 
     public void setYutakSyncMsgMode(YutakSyncMsgMode mode) {
-        this.yutakSyncMsgMode = mode;
+        this.syncMsgMode = mode;
     }
 
     public YutakSyncMsgMode getYutakSyncMsgMode() {
-        if (yutakSyncMsgMode == null) return YutakSyncMsgMode.READ;
-        return yutakSyncMsgMode;
+        if (syncMsgMode == null) return YutakSyncMsgMode.READ;
+        return syncMsgMode;
     }
 
     // 将一个RSA公钥字符串保存到Android应用的私有SharedPreferences存储空间
@@ -84,7 +92,7 @@ public class YutakApplication {
         if (mContext == null) return "";
         SharedPreferences setting = mContext.get().getSharedPreferences(
                 sharedName, Context.MODE_PRIVATE);
-        return setting.getString("wk_Token", "");
+        return setting.getString("Yutak_Token", "");
     }
 
     public void setToken(String token) {
@@ -92,7 +100,7 @@ public class YutakApplication {
         SharedPreferences setting = mContext.get().getSharedPreferences(
                 sharedName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = setting.edit();
-        editor.putString("wk_Token", token);
+        editor.putString("Yutak_Token", token);
         editor.apply();
     }
 
@@ -100,7 +108,7 @@ public class YutakApplication {
         if (dbHelper == null) {
             String uid = getUid();
             if (!TextUtils.isEmpty(uid)) {
-                dbHelper =dbHelper.get(mContext.get(), uid);
+                dbHelper =dbHelper.getInstance(mContext.get(), uid);
             } else {
                 LogKit.get().e("获取DbHelper时用户ID为null");
             }
@@ -132,14 +140,14 @@ public class YutakApplication {
     }
     public String getUid() {
         if (mContext == null) {
-            LogKit.get()..e("传入的context为空");
+            LogKit.get().e("传入的context为空");
             return "";
         }
         String tempUid = "";
         if (TextUtils.isEmpty(tempUid)) {
             SharedPreferences setting = mContext.get().getSharedPreferences(
                     sharedName, Context.MODE_PRIVATE);
-            tempUid = setting.getString("wk_UID", "");
+            tempUid = setting.getString("Yutak_UID", "");
         }
         return tempUid;
     }
@@ -150,12 +158,12 @@ public class YutakApplication {
         SharedPreferences setting = mContext.get().getSharedPreferences(
                 sharedName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = setting.edit();
-        editor.putString("wk_UID", uid);
+        editor.putString("Yutak_UID", uid);
         editor.apply();
     }
     public String getFileCacheDir() {
         if (TextUtils.isEmpty(fileDir)) {
-            fileDir = "wkIM";
+            fileDir = "YutakIM";
         }
         return Objects.requireNonNull(getContext().getExternalFilesDir(fileDir)).getAbsolutePath();
     }
@@ -166,7 +174,7 @@ public class YutakApplication {
         SharedPreferences.Editor editor = setting.edit();
         if (TextUtils.isEmpty(deviceId))
             deviceId = UUID.randomUUID().toString().replaceAll("-", "");
-        editor.putString(getUid() + "_wk_device_id", deviceId);
+        editor.putString(getUid() + "_Yutak_device_id", deviceId);
         editor.apply();
     }
 
@@ -174,11 +182,64 @@ public class YutakApplication {
         if (mContext == null) return "";
         SharedPreferences setting = mContext.get().getSharedPreferences(
                 sharedName, Context.MODE_PRIVATE);
-        String deviceId = setting.getString(getUid() + "_wk_device_id", "");
+        String deviceId = setting.getString(getUid() + "_Yutak_device_id", "");
         if (TextUtils.isEmpty(deviceId)) {
             deviceId = UUID.randomUUID().toString().replaceAll("-", "");
             setDeviceId(deviceId);
         }
         return deviceId + "ad";
+    }
+    public boolean isNetworkConnected() {
+        if (mContext == null) {
+            LogKit.get().e("检测网络的context为空--->");
+            return false;
+        }
+        ConnectivityManager manager = (ConnectivityManager) mContext.get().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (manager != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                NetworkCapabilities networkCapabilities = manager.getNetworkCapabilities(manager.getActiveNetwork());
+                if (networkCapabilities != null) {
+                    return networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET);
+                }
+            } else {
+                NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+                return networkInfo != null && networkInfo.isConnected();
+            }
+        }
+        return false;
+//
+//        ConnectivityManager connectivity = (ConnectivityManager) mContext.get().getSystemService(Context.CONNECTIVITY_SERVICE);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (connectivity != null) {
+//                Network networks = connectivity.getActiveNetwork();
+//                NetworkCapabilities networkCapabilities = connectivity.getNetworkCapabilities(networks);
+//                if (networkCapabilities != null) {
+//                    if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+//                        success = true;
+//                    } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+//                        success = true;
+//                    }
+//                } else {
+//                    success = false;
+//                }
+//            }
+//
+//        } else {
+//            NetworkInfo.State state = connectivity.getNetworkInfo(
+//                    ConnectivityManager.TYPE_WIFI).getState(); // 获取网络连接状态
+//            if (NetworkInfo.State.CONNECTED == state) {
+//                // 判断是否正在使用WIFI网络
+//                success = true;
+//            } else {
+//                state = connectivity.getNetworkInfo(
+//                        ConnectivityManager.TYPE_MOBILE).getState(); // 获取网络连接状态
+//                if (NetworkInfo.State.CONNECTED == state) { // 判断是否正在使用GPRS网络
+//                    success = true;
+//                }
+//            }
+//        }
+
     }
 }

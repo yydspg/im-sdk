@@ -59,7 +59,7 @@ public class YutakSqlContentValue {
             return contentValues;
         }
 
-        static ContentValues getCoverMsg(YutakConversationMsg ConversationMsg, boolean isSync) {
+        static ContentValues getWithCoverMsg(YutakConversationMsg ConversationMsg, boolean isSync) {
             ContentValues contentValues = new ContentValues();
             if (ConversationMsg == null) {
                 return contentValues;
